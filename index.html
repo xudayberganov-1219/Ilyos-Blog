@@ -1,58 +1,185 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="uz">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" href="./logo.jpg" type="image/x-icon">
-    <link rel="stylesheet" href="style.css">
-    <meta name="description" content="Assalomu alaykum. Ilyos Xudayberganovning saytiga tashrif buyurganingizdan minnatdormiz ">
-    <meta name="keywords" content=" Xorazm viloyatida joylashgan">
-    <meta name="google-site-verification" content="GX7RH-7WzUkkae7kdACt1oq7wA8F8NAn3-xg6Z8rQ2M" />
-    <title>Ilyos || Blog </title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="google-site-verification" content="GX7RH-7WzUkkae7kdACt1oq7wA8F8NAn3-xg6Z8rQ2M" />
+  <meta name="keywords" content="Loopinuz, ijtimoiy tarmoq, O‘zbekiston, videochat, profil, analitika, qisqa videolar, social app" />
+  <title>Loopinuz — O'zbekiston ijtimoiy tarmog‘i</title>
+  <link rel="icon" href="https://31xho5sof7.ucarecd.net/05b118b2-ddb6-480b-9f83-916c5a3bd1ba/" />
+  <meta name="description" content="Loopinuz — mahalliy foydalanuvchilar uchun tez, xavfsiz va jozibali ijtimoiy platforma. Videochat, postlar, profil va analitika bir joyda." />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    :root{
+      --accent:#007AFF;
+      --accent-2:#00C6FF;
+      --bg:#f9fbff;
+      --card:#ffffff;
+      --muted:#64748b;
+      --radius:16px;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:Poppins,Inter,sans-serif;background:var(--bg);color:#0f172a;line-height:1.6}
+    header{background:linear-gradient(90deg,var(--accent),var(--accent-2));padding:14px 28px;display:flex;justify-content:space-between;align-items:center;color:white;box-shadow:0 6px 24px rgba(10,16,43,0.1)}
+    .brand{display:flex;align-items:center;gap:10px;font-weight:700}
+    .brand img{width:50px;height:50px;border-radius:12px}
+    nav{display:flex;gap:16px}
+    nav a{color:white;text-decoration:none;font-weight:600}
+    .cta{background:white;color:var(--accent);padding:10px 14px;border-radius:12px;font-weight:700;text-decoration:none}
+    main{max-width:1100px;margin:0 auto;padding:36px 18px}
+
+    /* Hero */
+    .hero{display:grid;grid-template-columns:1fr 420px;gap:24px;align-items:center;margin-bottom:36px}
+    .hero h1{font-size:36px;margin:0}
+    .hero p{color:var(--muted)}
+    .buttons{margin-top:18px;display:flex;gap:12px}
+    .btn{padding:12px 16px;border-radius:12px;font-weight:600;text-decoration:none}
+    .btn.primary{background:linear-gradient(90deg,var(--accent),var(--accent-2));color:white}
+    .mockcard img{width:100%;border-radius:12px;box-shadow:0 12px 28px rgba(0,0,0,0.08)}
+
+    /* Founder */
+    .founder{display:flex;gap:24px;align-items:center;padding:22px;background:linear-gradient(180deg,#fff,#f3faff);border-radius:16px;box-shadow:0 8px 28px rgba(0,0,0,0.04);margin-bottom:32px}
+    .founder img{width:160px;height:160px;border-radius:12px;object-fit:cover;border:4px solid rgba(0,122,255,0.08)}
+    .founder h3{margin:0;color:var(--accent)}
+    .founder p{color:var(--muted)}
+
+    /* Features */
+    .features{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px;margin:28px 0}
+    .feature{background:var(--card);padding:14px;border-radius:12px;box-shadow:0 8px 24px rgba(0,0,0,0.04);transition:transform .28s ease}
+    .feature:hover{transform:translateY(-6px)}
+    .feature img{width:100%;border-radius:10px}
+    .feature h4{margin:8px 0;color:var(--accent)}
+    .feature p{color:var(--muted)}
+
+    /* Analytics: keep image + interactive */
+    .analytics-wrap{display:grid;grid-template-columns:1fr 480px;gap:20px;align-items:center;margin:36px 0}
+    .analytics-card{background:linear-gradient(180deg,#fff,#f8fdff);padding:18px;border-radius:14px;box-shadow:0 10px 30px rgba(0,0,0,0.05)}
+    .analytics-img{width:100%;border-radius:12px;display:block;box-shadow:0 12px 30px rgba(2,6,23,0.06)}
+    .analytics-meta{display:flex;gap:12px;margin-top:14px}
+    .metric{flex:1;background:white;padding:12px;border-radius:10px;text-align:center;box-shadow:0 6px 18px rgba(0,0,0,0.04)}
+    .metric small{display:block;color:var(--muted);font-size:12px}
+    .metric strong{display:block;font-size:20px;color:var(--accent);margin-top:6px}
+
+    .graph-panel{background:var(--card);padding:12px;border-radius:12px;box-shadow:0 8px 20px rgba(0,0,0,0.04)}
+    canvas{width:100%;height:280px}
+
+    /* video */
+    .video{text-align:center;margin:36px 0}
+    .video video{width:100%;max-width:900px;border-radius:12px;box-shadow:0 12px 28px rgba(0,0,0,0.08)}
+
+    footer{text-align:center;color:var(--muted);padding:22px 0;border-top:1px solid #e6eef8}
+
+    @media (max-width:980px){.hero{grid-template-columns:1fr}.analytics-wrap{grid-template-columns:1fr}}
+    @media (max-width:640px){.founder{flex-direction:column;align-items:center}.brand .title{display:none}}
+
+    /* small effects */
+    .fade-in{opacity:0;transform:translateY(10px);transition:all .6s ease}
+    .fade-in.show{opacity:1;transform:none}
+  </style>
 </head>
 <body>
-<header class="page-header">
-    <section class="page-section">
-        <div class="page-section-logo">
-            <img src="./logo.jpg" alt="logo" class="header-logo">
-            <h4>Web Dasturlash</h4>
-        </div>
-        <div class="page-logo">
-            <h3 class="header-text">Ilyos || Developer</h3>
-        </div>
-        <div class="header-nav">
-            <a href="#!" class="header-nav-link1">Web saytlarim</a>
-            <a href="#!" class="header-nav-link2">Kanalimiz</a>
-            <a href="#!" class="header-nav-link3">Guruhimiz</a>
-        </div>
-        <button class="header-btn">Kirish</button>
-    </section>    
+  <header>
+    <div class="brand"><img src="https://31xho5sof7.ucarecd.net/05b118b2-ddb6-480b-9f83-916c5a3bd1ba/" alt="logo"/><span class="title">Loopinuz</span></div>
+    <nav>
+      <a href="#hero">Bosh sahifa</a>
+      <a href="#founder">Asoschi</a>
+      <a href="#features">Xususiyatlar</a>
+      <a href="#analytics">Analitika</a>
+      <a class="cta" href="https://loopinuz.vercel.app/">Platformaga o'tish</a>
+    </nav>
+  </header>
 
-</header>
-<section class="page-section-two">
-    <div class="text">
-        <h1 class="chartes">Web Developer</h1>
-        <p> A web developer is a programmer who develops <br> World Wide Web applications using a client–server model. <br> The applications typically use HTML, CSS, <br> and JavaScript in the client, and any general-purpose <br> programming language in the server.</p>
-        <div class="search">
-            <input type="text" class="text2" placeholder="Matn kiriting...">
-            <button type="submit" class="btn">Jo'natish</button>
-        </div>            
-    </div>
-    <div class="section-img_text">
-        <img src="./QWsX.gif" alt="" class="section-img"><br>
-        <h6>Hayot sen kutgandek bo'lishi uchun sen hayotni o'zgartir!!!</h6>
-    </div>
+  <main>
+    <section class="hero" id="hero">
+      <div>
+        <h1>Loopinuz — O'zbekiston uchun yaratilgan ijtimoiy tarmoq</h1>
+        <p>Mahalliy foydalanuvchilar uchun tezkor, xavfsiz va jozibali platforma: videochat, postlar, analitika va ko‘proq imkoniyatlar.</p>
+        <div class="buttons">
+          <a href="/register" class="btn primary">Ro'yxatdan o'tish</a>
+          <a href="/discover" class="btn ghost">Kashf etish</a>
+        </div>
+      </div>
+      <div class="mockcard"><img src="https://31xho5sof7.ucarecd.net/503e134e-0a53-407a-821a-cb239f0d58fc/-/preview/1162x693/-/setfill/ffffff/-/format/jpeg/-/progressive/yes/" alt="preview"/></div>
+    </section>
 
-</section>
-<section class="page-section-three">
-    <p class="ppppp">Developers</p>
-    <div class="section-three-images">
-        <img src="./front-end.avif" alt="frontend" class="three-section-img1">
-        <img src="./Backend-solution.png" alt="backend" class="three-section-img2">
-        <img src="./fullstack.jpg" alt="fullstack" class="three-section-img3">
-    </div>
-</section>
-    
+    <section class="founder fade-in" id="founder">
+      <div class="founder">
+        <img src="https://31xho5sof7.ucarecd.net/05b118b2-ddb6-480b-9f83-916c5a3bd1ba/" alt="Ilyos Xudayberganov"/>
+        <div>
+          <h3>Ilyos Xudayberganov — Loopinuz asoschisi va yetakchi dasturchi</h3>
+          <p>Ilyos 2025-yilda Loopinuz loyihasini boshlab, web va mobil ilovalar, UX dizayn va xavfsizlik sohalarida faoliyat yuritadi. U foydalanuvchi markazli, mahalliy ehtiyojlarni qondiruvchi platformani yaratishga e'tibor qaratadi.</p>
+          <p style="margin-top:10px;color:var(--muted)"><strong>Ta'lim:</strong> Texnik ta'lim, veb-dasturlash.<br><strong>Tajribalar:</strong> bir nechta lokal va xalqaro veb-loyihalar, freelance ishlari.<br><strong>Ish falsafasi:</strong> <em>tezlik, maxfiylik va oddiylik</em>.</p>
+          <div class="quote" style="margin-top:12px;background:linear-gradient(90deg,rgba(0,122,255,0.06),transparent);padding:10px;border-radius:10px;font-weight:600">"Mahalliy ehtiyoj — eng yaxshi yechim: tezlik, maxfiylik va oddiylik."</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="features" id="features">
+      <div class="feature fade-in">
+        <img src="https://31xho5sof7.ucarecd.net/66ef1f99-c4b5-4147-afb0-1f649bded9d0/-/preview/1162x693/-/setfill/ffffff/-/format/jpeg/-/progressive/yes/" alt="home" />
+        <h4>Bosh sahifa</h4>
+        <p>Trenddagi postlar, jamoalar va tavsiyalarni bir joyda ko‘ring.</p>
+      </div>
+      <div class="feature fade-in">
+        <img src="https://31xho5sof7.ucarecd.net/379407f1-8007-4ffa-b733-9f17b3874409/-/preview/1162x693/-/setfill/ffffff/-/format/jpeg/-/progressive/yes/" alt="profile" />
+        <h4>Profil</h4>
+        <p>Obunachilar, postlar va biografiya — siz haqingizdagi barcha ma'lumot.</p>
+      </div>
+      <div class="feature fade-in">
+        <img src="https://31xho5sof7.ucarecd.net/1e49cd9b-d2ba-412d-91ae-1297f6542d92/-/preview/1162x693/-/setfill/ffffff/-/format/jpeg/-/progressive/yes/" alt="chat" />
+        <h4>Chat & Video</h4>
+        <p>Real vaqt rejimida chat va videoqo‘ng‘iroqlar o'tkazing.</p>
+      </div>
+    </section>
+
+    <!-- Analytics: Image retained + interactive graph + counters -->
+    <section class="analytics-wrap" id="analytics">
+      <div class="analytics-card fade-in">
+        <img class="analytics-img" src="https://2zorry8zj2.ucarecd.net/ffddc19a-1c85-4cd7-994d-8a4cf8c99ed1/" alt="Analitika paneli" />
+        <div class="analytics-meta">
+          <div class="metric"><small>Oylik foydalanuvchilar</small><strong id="usersCount">0</strong></div>
+          <div class="metric"><small>Kunlik postlar</small><strong id="postsCount">0</strong></div>
+          <div class="metric"><small>Eng yuqori kunlik</small><strong id="peakCount">0</strong></div>
+        </div>
+      </div>
+
+      <div class="graph-panel fade-in">
+        <h4 style="margin:0 0 10px;color:var(--accent)">O‘sish grafigi</h4>
+        <canvas id="growthChart"></canvas>
+        <p style="color:var(--muted);font-size:13px;margin-top:8px">Grafik demo ma'lumotlar bilan ishlaydi — haqiqiy statistikani API orqali ulang.</p>
+      </div>
+    </section>
+
+    <section class="video fade-in" id="video">
+      <h3 style="color:var(--accent);margin-top:0">Tanishtiruv videosi</h3>
+      <video controls poster="https://31xho5sof7.ucarecd.net/503e134e-0a53-407a-821a-cb239f0d58fc/-/preview/1162x693/-/setfill/ffffff/-/format/jpeg/-/progressive/yes/">
+        <source src="https://31xho5sof7.ucarecd.net/94350ff3-6c5a-4eeb-b00e-0cb73e9dc917~1/nth/0/" type="video/mp4" />
+      </video>
+    </section>
+
+    <footer>
+      <p>© <span id="year"></span> <strong>Loopinuz</strong> — Barcha huquqlar himoyalangan | Asoschi: <strong>Ilyos Xudayberganov</strong></p>
+    </footer>
+  </main>
+
+  <script>
+    // reveal on scroll
+    const fades = document.querySelectorAll('.fade-in');
+    const io = new IntersectionObserver((entries)=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('show');}})},{threshold:.15});
+    fades.forEach(f=>io.observe(f));
+
+    // animated counters
+    function animateValue(id,start,end,duration){const el=document.getElementById(id);let startTime=null;function step(ts){if(!startTime)startTime=ts;const progress=Math.min((ts-startTime)/duration,1);el.innerText=Math.floor(progress*(end-start)+start).toLocaleString();if(progress<1)requestAnimationFrame(step);}requestAnimationFrame(step);}    
+    animateValue('usersCount',0,12500,1400);
+    animateValue('postsCount',0,420,1400);
+    animateValue('peakCount',0,1780,1400);
+
+    // Chart.js
+    const ctx=document.getElementById('growthChart').getContext('2d');
+    const growthChart=new Chart(ctx,{type:'line',data:{labels:['Apr','May','Jun','Jul','Aug','Sep','Oct'],datasets:[{label:'Foydalanuvchilar',data:[1200,2400,3600,5400,7600,9800,12500],fill:true,backgroundColor:'rgba(0,122,255,0.12)',borderColor:'rgba(0,122,255,1)',tension:0.35,pointRadius:3}]},options:{responsive:true,plugins:{legend:{display:false}},scales:{x:{grid:{display:false}},y:{grid:{color:'rgba(0,0,0,0.04)'}}}}});
+
+    // year
+    document.getElementById('year').textContent=new Date().getFullYear();
+  </script>
 </body>
 </html>
