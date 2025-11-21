@@ -11,6 +11,9 @@
 
   <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Space+Grotesk:wght@300..700&display=swap" rel="stylesheet" />
+  
+  <!-- Ikonkalar -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
   <!-- Three.js -->
   <script src="https://cdn.jsdelivr.net/npm/three@0.168.0/build/three.min.js"></script>
@@ -44,6 +47,9 @@
       --gradient: linear-gradient(135deg, #4361ee, #f72585);
     }
     * { margin:0; padding:0; box-sizing:border-box; }
+    html {
+      scroll-behavior: smooth;
+    }
     body {
       font-family: 'Inter', sans-serif;
       background: #0a0a1f;
@@ -53,6 +59,8 @@
       background-attachment: fixed;
     }
     canvas { position: fixed; top: 0; left: 0; z-index: -1; }
+    
+    /* Header */
     header {
       position: fixed;
       top: 0; left: 0; right: 0;
@@ -61,6 +69,12 @@
       background: rgba(10,10,31,0.8);
       border-bottom: 1px solid rgba(67,97,238,0.2);
       z-index: 1000;
+      transition: all 0.3s ease;
+    }
+    header.scrolled {
+      padding: 1rem 0;
+      background: rgba(10,10,31,0.95);
+      box-shadow: 0 5px 20px rgba(0,0,0,0.3);
     }
     .nav {
       max-width: 1600px;
@@ -81,8 +95,56 @@
       align-items: center;
       gap: 1rem;
     }
-    .logo img { width: 60px; border-radius: 16px; box-shadow: 0 0 30px rgba(67,97,238,0.5); }
-
+    .logo img { 
+      width: 60px; 
+      border-radius: 16px; 
+      box-shadow: 0 0 30px rgba(67,97,238,0.5); 
+      transition: transform 0.3s ease;
+    }
+    .logo:hover img {
+      transform: rotate(10deg) scale(1.05);
+    }
+    
+    /* Navigation */
+    .nav-links {
+      display: flex;
+      gap: 2.5rem;
+      align-items: center;
+    }
+    .nav-links a {
+      color: var(--text);
+      text-decoration: none;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+    .nav-links a:hover {
+      color: var(--primary-glow);
+    }
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--gradient);
+      transition: width 0.3s ease;
+    }
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+    
+    /* Mobile Menu */
+    .mobile-menu-btn {
+      display: none;
+      background: none;
+      border: none;
+      color: var(--text);
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+    
     /* Hero 3D Scene */
     .hero {
       height: 100vh;
@@ -104,6 +166,47 @@
       -webkit-text-fill-color: transparent;
     }
     .glow-text { text-shadow: 0 0 40px rgba(67,97,238,0.8); }
+    .hero-subtitle {
+      font-size: 1.5rem;
+      margin: 2rem 0;
+      opacity: 0.9;
+      line-height: 1.6;
+    }
+    .hero-buttons {
+      display: flex;
+      gap: 2rem;
+      margin-top: 3rem;
+    }
+    .btn {
+      padding: 1.5rem 4rem;
+      background: var(--gradient);
+      color: white;
+      border-radius: 60px;
+      font-size: 1.3rem;
+      font-weight: 700;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.8rem;
+      transition: all 0.3s ease;
+      box-shadow: 0 0 60px rgba(67,97,238,0.7);
+      position: relative;
+      overflow: hidden;
+    }
+    .btn:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 30px rgba(67,97,238,0.9);
+    }
+    .btn-outline {
+      background: transparent;
+      border: 2px solid var(--primary);
+      color: var(--text);
+      box-shadow: none;
+    }
+    .btn-outline:hover {
+      background: rgba(67,97,238,0.1);
+      transform: translateY(-5px);
+    }
 
     /* 3D Phones */
     #three-container {
@@ -114,7 +217,10 @@
     }
 
     /* Features */
-    .features { padding: 200px 0; position: relative; }
+    .features { 
+      padding: 200px 0; 
+      position: relative; 
+    }
     .section-title {
       text-align: center;
       font-size: 4.5rem;
@@ -139,18 +245,105 @@
       backdrop-filter: blur(20px);
       border: 1px solid rgba(67,97,238,0.2);
       transition: all 0.6s;
+      position: relative;
+      overflow: hidden;
+    }
+    .feature-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: var(--gradient);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      z-index: -1;
     }
     .feature-card:hover {
       transform: translateY(-20px) rotateX(10deg);
       box-shadow: 0 40px 80px rgba(67,97,238,0.3);
+    }
+    .feature-card:hover::before {
+      opacity: 0.1;
     }
     .feature-card img {
       width: 100%;
       border-radius: 20px;
       margin-bottom: 2rem;
       box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+      transition: transform 0.5s ease;
     }
-
+    .feature-card:hover img {
+      transform: scale(1.05);
+    }
+    .feature-card h3 {
+      font-size: 1.8rem;
+      margin-bottom: 1rem;
+      color: var(--primary-glow);
+    }
+    .feature-card p {
+      font-size: 1.1rem;
+      line-height: 1.6;
+      opacity: 0.9;
+    }
+    
+    /* About Section */
+    .about {
+      padding: 150px 0;
+      background: linear-gradient(135deg, rgba(10,10,31,0.9), rgba(20,20,40,0.9));
+      position: relative;
+      overflow: hidden;
+    }
+    .about-content {
+      max-width: 1600px;
+      margin: 0 auto;
+      padding: 0 3rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: center;
+    }
+    .about-text h2 {
+      font-size: 3.5rem;
+      margin-bottom: 2rem;
+      background: var(--gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .about-text p {
+      font-size: 1.2rem;
+      line-height: 1.8;
+      margin-bottom: 2rem;
+      opacity: 0.9;
+    }
+    .about-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+      margin-top: 3rem;
+    }
+    .stat-item {
+      text-align: center;
+      padding: 2rem;
+      background: rgba(67,97,238,0.1);
+      border-radius: 20px;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(67,97,238,0.2);
+    }
+    .stat-number {
+      font-size: 3rem;
+      font-weight: 700;
+      background: var(--gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      display: block;
+    }
+    .stat-label {
+      font-size: 1.1rem;
+      opacity: 0.8;
+    }
+    
     /* Live Stats Monitor */
     .stats-monitor {
       padding: 150px 0;
@@ -180,12 +373,297 @@
       padding: 2rem;
       margin-top: 2rem;
     }
-
-    footer {
-      padding: 100px 0;
+    
+    /* Team Section */
+    .team {
+      padding: 150px 0;
+    }
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 3rem;
+      max-width: 1600px;
+      margin: 0 auto;
+      padding: 0 3rem;
+    }
+    .team-member {
       text-align: center;
+      background: var(--card);
+      padding: 3rem 2rem;
+      border-radius: 30px;
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(67,97,238,0.2);
+      transition: all 0.5s ease;
+    }
+    .team-member:hover {
+      transform: translateY(-15px);
+      box-shadow: 0 20px 40px rgba(67,97,238,0.3);
+    }
+    .member-photo {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      margin: 0 auto 1.5rem;
+      background: var(--gradient);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3rem;
+      color: white;
+    }
+    .member-name {
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+      color: var(--primary-glow);
+    }
+    .member-role {
+      font-size: 1.1rem;
+      opacity: 0.8;
+      margin-bottom: 1.5rem;
+    }
+    .member-desc {
+      font-size: 1rem;
+      line-height: 1.6;
+      opacity: 0.9;
+    }
+    
+    /* FAQ Section */
+    .faq {
+      padding: 150px 0;
+      background: linear-gradient(135deg, rgba(10,10,31,0.9), rgba(20,20,40,0.9));
+    }
+    .faq-container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 0 3rem;
+    }
+    .faq-item {
+      background: var(--card);
+      margin-bottom: 1.5rem;
+      border-radius: 20px;
+      overflow: hidden;
+      border: 1px solid rgba(67,97,238,0.2);
+    }
+    .faq-question {
+      padding: 2rem;
+      font-size: 1.3rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: all 0.3s ease;
+    }
+    .faq-question:hover {
+      background: rgba(67,97,238,0.1);
+    }
+    .faq-answer {
+      padding: 0 2rem 2rem;
+      font-size: 1.1rem;
+      line-height: 1.6;
+      opacity: 0.9;
+      display: none;
+    }
+    .faq-item.active .faq-answer {
+      display: block;
+    }
+    .faq-item.active .faq-question {
+      color: var(--primary-glow);
+    }
+    .faq-toggle {
+      font-size: 1.5rem;
+      transition: transform 0.3s ease;
+    }
+    .faq-item.active .faq-toggle {
+      transform: rotate(45deg);
+    }
+    
+    /* CTA Section */
+    .cta {
+      padding: 150px 0;
+      text-align: center;
+      background: linear-gradient(135deg, #0f0a1f, #1a0033);
+      position: relative;
+      overflow: hidden;
+    }
+    .cta h2 {
+      font-size: 4rem;
+      margin-bottom: 2rem;
+      background: var(--gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .cta p {
+      font-size: 1.5rem;
+      max-width: 800px;
+      margin: 0 auto 3rem;
+      opacity: 0.9;
+      line-height: 1.6;
+    }
+    
+    /* Footer */
+    footer {
+      padding: 100px 0 50px;
       background: #000;
       color: #666;
+    }
+    .footer-content {
+      max-width: 1600px;
+      margin: 0 auto;
+      padding: 0 3rem;
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 4rem;
+      margin-bottom: 3rem;
+    }
+    .footer-logo {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 2.5rem;
+      font-weight: 700;
+      background: var(--gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .footer-logo img {
+      width: 60px;
+      border-radius: 16px;
+    }
+    .footer-desc {
+      font-size: 1.1rem;
+      line-height: 1.6;
+      margin-bottom: 2rem;
+      opacity: 0.8;
+    }
+    .social-links {
+      display: flex;
+      gap: 1.5rem;
+    }
+    .social-links a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 50px;
+      height: 50px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 50%;
+      color: var(--text);
+      font-size: 1.3rem;
+      transition: all 0.3s ease;
+    }
+    .social-links a:hover {
+      background: var(--gradient);
+      transform: translateY(-5px);
+    }
+    .footer-heading {
+      font-size: 1.3rem;
+      margin-bottom: 1.5rem;
+      color: var(--text);
+    }
+    .footer-links {
+      list-style: none;
+    }
+    .footer-links li {
+      margin-bottom: 1rem;
+    }
+    .footer-links a {
+      color: #94a3b8;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+    .footer-links a:hover {
+      color: var(--primary-glow);
+      padding-left: 5px;
+    }
+    .footer-bottom {
+      text-align: center;
+      padding-top: 3rem;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      max-width: 1600px;
+      margin: 0 auto;
+      padding-left: 3rem;
+      padding-right: 3rem;
+    }
+    
+    /* Scroll to Top */
+    .scroll-top {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      width: 50px;
+      height: 50px;
+      background: var(--gradient);
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      cursor: pointer;
+      z-index: 999;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+      box-shadow: 0 5px 15px rgba(67,97,238,0.5);
+    }
+    .scroll-top.active {
+      opacity: 1;
+      visibility: visible;
+    }
+    .scroll-top:hover {
+      transform: translateY(-5px);
+    }
+    
+    /* Responsive */
+    @media (max-width: 1200px) {
+      .hero {
+        grid-template-columns: 1fr;
+        text-align: center;
+      }
+      #three-container {
+        position: relative;
+        left: 0;
+        height: 50vh;
+        margin-top: 3rem;
+      }
+      .about-content {
+        grid-template-columns: 1fr;
+      }
+      .footer-content {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+      }
+      .mobile-menu-btn {
+        display: block;
+      }
+      .hero-buttons {
+        flex-direction: column;
+        align-items: center;
+      }
+      .btn {
+        width: 100%;
+        justify-content: center;
+      }
+      .feature-grid {
+        grid-template-columns: 1fr;
+      }
+      .about-stats {
+        grid-template-columns: 1fr;
+      }
+      .footer-content {
+        grid-template-columns: 1fr;
+      }
+      .section-title {
+        font-size: 3rem;
+      }
     }
   </style>
 </head>
@@ -193,64 +671,110 @@
 
   <canvas id="bg"></canvas>
 
-  <header>
+  <header id="header">
     <div class="nav">
       <div class="logo">
         <img src="https://loopinuz.vercel.app/logogo.png" alt="Loopinuz" />
         Loopinuz
       </div>
-      <a href="https://loopinuz.vercel.app/" class="btn" style="padding:1rem 3rem; background:var(--gradient); color:white; border-radius:50px; font-weight:700; text-decoration:none; box-shadow:0 0 40px rgba(67,97,238,0.6);">Beta-ga Kirish →</a>
+      <div class="nav-links">
+        <a href="#features">Imkoniyatlar</a>
+        <a href="#about">Biz haqimizda</a>
+        <a href="#stats">Statistika</a>
+        <a href="#team">Jamoa</a>
+        <a href="#faq">FAQ</a>
+        <a href="https://loopinuz.vercel.app/" class="btn" style="padding:1rem 2rem;">Beta-ga Kirish →</a>
+      </div>
+      <button class="mobile-menu-btn">
+        <i class="fas fa-bars"></i>
+      </button>
     </div>
   </header>
 
   <section class="hero">
     <div class="hero-content">
       <h1 class="glow-text">Loopinuz<br><span style="font-size:0.7em;">Oʻzbekiston</span><br>kelajagi</h1>
-      <p style="font-size:1.5rem; margin:2rem 0; opacity:0.9;">3D interfeys • AI analitika • WebRTC video • Real-time trendlar</p>
-      <div style="display:flex; gap:2rem; margin-top:3rem;">
-        <a href="#" class="btn" style="padding:1.5rem 4rem; background:var(--gradient); color:white; border-radius:60px; font-size:1.3rem; box-shadow:0 0 60px rgba(67,97,238,0.7);">Hozir Boshlash</a>
+      <p class="hero-subtitle">3D interfeys • AI analitika • WebRTC video • Real-time trendlar</p>
+      <div class="hero-buttons">
+        <a href="https://loopinuz.vercel.app/" class="btn">
+          <i class="fas fa-rocket"></i> Hozir Boshlash
+        </a>
+        <a href="#features" class="btn btn-outline">
+          <i class="fas fa-play-circle"></i> Video Ko'rish
+        </a>
       </div>
     </div>
     <div id="three-container"></div>
   </section>
 
-  <section class="features">
+  <section id="features" class="features">
     <h2 class="section-title">Texnologiya va Imkoniyatlar</h2>
     <div class="feature-grid">
       <div class="feature-card" data-tilt data-tilt-glare data-tilt-max-glare="0.5">
         <img src="i1.png" alt="Feed" />
         <h3>3D Feed</h3>
-        <p>Interaktiv, parallax va 3D effektli postlar oqimi</p>
+        <p>Interaktiv, parallax va 3D effektli postlar oqimi. Har bir post sizga yaqinroq va realroq his qiladi.</p>
       </div>
       <div class="feature-card" data-tilt>
         <img src="i2.png" alt="Video" />
         <h3>Crystal Clear Video</h3>
-        <p>WebRTC + AI noise cancellation</p>
+        <p>WebRTC + AI noise cancellation. Yuqori sifatli video suhbatlar va kontent yaratish.</p>
       </div>
       <div class="feature-card" data-tilt>
         <img src="i3.png" alt="AI" />
         <h3>AI Analitika</h3>
-        <p>Post performansi bashorati</p>
+        <p>Post performansi bashorati. Kontentingiz qanchalik muvaffaqiyatli bo'lishini oldindan biling.</p>
       </div>
       <div class="feature-card" data-tilt>
         <img src="i4.png" alt="Community" />
         <h3>3D Hamjamiyatlar</h3>
-        <p>Virtual xonalar va avatarlar</p>
+        <p>Virtual xonalar va avatarlar. Do'stlaringiz bilan virtual dunyoda uchrashing.</p>
       </div>
       <div class="feature-card" data-tilt>
         <img src="i5.png" alt="Dark Mode" />
         <h3>Neural Dark Mode</h3>
-        <p>Koʻz charchoqsiz interfeys</p>
+        <p>Ko'z charchoqsiz interfeys. AI asosida shaxsiylashtirilgan qorong'u rejim.</p>
       </div>
       <div class="feature-card" data-tilt>
         <img src="i9.png" alt="Performance" />
         <h3>60 FPS + PWA</h3>
-        <p>Telefoningizda ilova kabi ishlaydi</p>
+        <p>Telefoningizda ilova kabi ishlaydi. Ofllin rejimda ham ishlash imkoniyati.</p>
       </div>
     </div>
   </section>
 
-  <section class="stats-monitor">
+  <section id="about" class="about">
+    <div class="about-content">
+      <div class="about-text">
+        <h2>Loopinuz haqida</h2>
+        <p>Loopinuz - bu O'zbekistonlik yoshlar tomonidan yaratilgan yangi avlod ijtimoiy tarmoq platformasi. Bizning maqsadimiz - mahalliy hamjamiyat uchun zamonaviy, xavfsiz va qulay muhit yaratish.</p>
+        <p>Platformamiz 3D texnologiyalar, sun'iy intellekt va real-time kommunikatsiyalarni birlashtirib, foydalanuvchilarga noyob tajriba taqdim etadi.</p>
+        
+        <div class="about-stats">
+          <div class="stat-item">
+            <span class="stat-number" id="users-count">2160</span>
+            <span class="stat-label">Foydalanuvchi</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number" id="posts-count">526</span>
+            <span class="stat-label">Post</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number" id="communities-count">102</span>
+            <span class="stat-label">Hamjamiyat</span>
+          </div>
+        </div>
+      </div>
+      <div class="about-visual">
+        <!-- Bu yerda qo'shimcha vizual element bo'lishi mumkin -->
+        <div style="width:100%; height:400px; background:var(--card); border-radius:30px; display:flex; align-items:center; justify-content:center; border:1px solid rgba(67,97,238,0.2);">
+          <i class="fas fa-globe-americas" style="font-size:5rem; background:var(--gradient); -webkit-background-clip:text; -webkit-text-fill-color:transparent;"></i>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="stats" class="stats-monitor">
     <div class="monitor">
       <h2 style="text-align:center; font-size:3rem; margin-bottom:2rem; background:var(--gradient); -webkit-background-clip:text; -webkit-text-fill-color:transparent;">Live Platforma Statistika</h2>
       <div class="chart-container">
@@ -259,10 +783,137 @@
     </div>
   </section>
 
+  <section id="team" class="team">
+    <h2 class="section-title">Bizning Jamoa</h2>
+    <div class="team-grid">
+      <div class="team-member">
+        <div class="member-photo">
+          <i class="fas fa-user"></i>
+        </div>
+        <h3 class="member-name">Ilyos Xudayberganov</h3>
+        <p class="member-role">Asoschi & CEO</p>
+        <p class="member-desc">Loopinuz loyihasi asoschisi. 5 yillik tajribaga ega full-stack dasturchi.</p>
+      </div>
+      <div class="team-member">
+        <div class="member-photo">
+          <i class="fas fa-user"></i>
+        </div>
+        <h3 class="member-name">Ilyos Xudayberganov</h3>
+        <p class="member-role">CTO</p>
+        <p class="member-desc">Texnologik strategiya va platforma arxitekturasi ustida ishlaydi.</p>
+      </div>
+      <div class="team-member">
+        <div class="member-photo">
+          <i class="fas fa-user"></i>
+        </div>
+        <h3 class="member-name">Ilyos Xudayberganov</h3>
+        <p class="member-role">UI/UX Dizayner</p>
+        <p class="member-desc">Foydalanuvchi interfeysi va tajribasini yaratish ustida ishlaydi.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="faq" class="faq">
+    <h2 class="section-title">Ko'p So'raladigan Savollar</h2>
+    <div class="faq-container">
+      <div class="faq-item">
+        <div class="faq-question">
+          Loopinuz qanday ishlaydi?
+          <span class="faq-toggle">+</span>
+        </div>
+        <div class="faq-answer">
+          Loopinuz - WebRTC, Three.js va AI texnologiyalaridan foydalangan holda ishlaydi. Platforma foydalanuvchilarga 3D interfeys, yuqori sifatli video suhbatlar va aqlli kontent tahlili imkoniyatlarini taqdim etadi.
+        </div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question">
+          Loopinuz bepulmi?
+          <span class="faq-toggle">+</span>
+        </div>
+        <div class="faq-answer">
+          Ha, Loopinuz asosiy funksiyalari bepul. Kelajakda premium funksiyalar joriy etilishi mumkin, ammo ular asosiy foydalanishga ta'sir qilmaydi.
+        </div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question">
+          Qanday qilib hisob ochish mumkin?
+          <span class="faq-toggle">+</span>
+        </div>
+        <div class="faq-answer">
+          Hisob ochish uchun saytning asosiy sahifasidagi "Hozir Boshlash" tugmasini bosing va telefon raqamingiz orqali ro'yxatdan o'ting. Tasdiqlash kodi SMS orqali yuboriladi.
+        </div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question">
+          Ma'lumotlarim qanchalik xavfsiz?
+          <span class="faq-toggle">+</span>
+        </div>
+        <div class="faq-answer">
+          Biz foydalanuvchilar ma'lumotlarini shifrlash va xavfsiz saqlash uchun eng so'nggi texnologiyalardan foydalanamiz. Ma'lumotlaringiz hech qachon uchinchi shaxslar bilan baham ko'rilmaydi.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta">
+    <h2>Loopinuz Jamoasiga Qo'shiling</h2>
+    <p>O'zbekistonning birinchi 3D ijtimoiy tarmog'ining birinchi a'zolaridan biring. Kelajakni hozir yarating!</p>
+    <a href="https://loopinuz.vercel.app/" class="btn" style="padding:1.5rem 5rem; font-size:1.5rem;">
+      <i class="fas fa-user-plus"></i> Hoziroq Ro'yxatdan O'ting
+    </a>
+  </section>
+
   <footer>
-    <h2 style="font-size:4rem; background:var(--gradient); -webkit-background-clip:text; -webkit-text-fill-color:transparent;">Loopinuz</h2>
-    <p>© 2025 • Made with passion in Uzbekistan 🇺🇿</p>
+    <div class="footer-content">
+      <div class="footer-info">
+        <div class="footer-logo">
+          <img src="https://loopinuz.vercel.app/logogo.png" alt="Loopinuz" />
+          Loopinuz
+        </div>
+        <p class="footer-desc">O'zbekistonning birinchi 3D ijtimoiy tarmog'i. WebRTC video, 3D interfeys, AI analitika va mahalliy trendlar bilan yangi avlod platformasi.</p>
+        <div class="social-links">
+          <a href="#"><i class="fab fa-telegram"></i></a>
+          <a href="#"><i class="fab fa-instagram"></i></a>
+          <a href="#"><i class="fab fa-youtube"></i></a>
+          <a href="#"><i class="fab fa-tiktok"></i></a>
+        </div>
+      </div>
+      <div class="footer-links-column">
+        <h3 class="footer-heading">Platforma</h3>
+        <ul class="footer-links">
+          <li><a href="#">Asosiy sahifa</a></li>
+          <li><a href="#">Imkoniyatlar</a></li>
+          <li><a href="#">Narxlar</a></li>
+          <li><a href="#">Blog</a></li>
+        </ul>
+      </div>
+      <div class="footer-links-column">
+        <h3 class="footer-heading">Yordam</h3>
+        <ul class="footer-links">
+          <li><a href="#">Qo'llanma</a></li>
+          <li><a href="#">FAQ</a></li>
+          <li><a href="#">Aloqa</a></li>
+          <li><a href="#">Qo'llab-quvvatlash</a></li>
+        </ul>
+      </div>
+      <div class="footer-links-column">
+        <h3 class="footer-heading">Kompaniya</h3>
+        <ul class="footer-links">
+          <li><a href="#">Biz haqimizda</a></li>
+          <li><a href="#">Jamoa</a></li>
+          <li><a href="#">Karyera</a></li>
+          <li><a href="#">Maxfiylik siyosati</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 Loopinuz • Made with passion in Uzbekistan 🇺🇿</p>
+    </div>
   </footer>
+
+  <div class="scroll-top" id="scrollTop">
+    <i class="fas fa-arrow-up"></i>
+  </div>
 
   <script>
     // Lenis
@@ -321,8 +972,67 @@
     init3D();
 
     // GSAP Animations
+    gsap.registerPlugin(ScrollTrigger);
+    
     gsap.from(".hero-content > *", { y: 100, opacity: 0, duration: 1.5, stagger: 0.3, ease: "power4.out" });
     gsap.to("#three-container", { scrollTrigger: { trigger: ".hero", scrub: 1 }, rotationY: 30 });
+    
+    // Feature cards animation
+    gsap.from(".feature-card", {
+      scrollTrigger: {
+        trigger: ".features",
+        start: "top 80%",
+        end: "bottom 20%",
+        toggleActions: "play none none reverse"
+      },
+      y: 100,
+      opacity: 0,
+      duration: 1,
+      stagger: 0.2,
+      ease: "power3.out"
+    });
+    
+    // About section animation
+    gsap.from(".about-text", {
+      scrollTrigger: {
+        trigger: ".about",
+        start: "top 80%",
+        end: "bottom 20%",
+        toggleActions: "play none none reverse"
+      },
+      x: -100,
+      opacity: 0,
+      duration: 1,
+      ease: "power3.out"
+    });
+    
+    gsap.from(".about-visual", {
+      scrollTrigger: {
+        trigger: ".about",
+        start: "top 80%",
+        end: "bottom 20%",
+        toggleActions: "play none none reverse"
+      },
+      x: 100,
+      opacity: 0,
+      duration: 1,
+      ease: "power3.out"
+    });
+    
+    // Team animation
+    gsap.from(".team-member", {
+      scrollTrigger: {
+        trigger: ".team",
+        start: "top 80%",
+        end: "bottom 20%",
+        toggleActions: "play none none reverse"
+      },
+      y: 100,
+      opacity: 0,
+      duration: 1,
+      stagger: 0.3,
+      ease: "power3.out"
+    });
 
     // Live Chart
     new Chart(document.getElementById('liveChart'), {
@@ -338,12 +1048,129 @@
           fill: true
         }]
       },
-      options: { animation: { duration: 3000 }, scales: { y: { grid: { color: 'rgba(255,255,255,0.1)' } } } }
+      options: { 
+        animation: { duration: 3000 }, 
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            labels: {
+              color: '#e0e7ff',
+              font: {
+                size: 14
+              }
+            }
+          }
+        },
+        scales: { 
+          x: {
+            grid: {
+              color: 'rgba(255,255,255,0.1)'
+            },
+            ticks: {
+              color: '#94a3b8'
+            }
+          },
+          y: { 
+            grid: { 
+              color: 'rgba(255,255,255,0.1)' 
+            },
+            ticks: {
+              color: '#94a3b8'
+            }
+          } 
+        } 
+      }
     });
 
     // Tilt
     VanillaTilt.init(document.querySelectorAll("[data-tilt]"), { max: 15, speed: 400, glare: true });
+
+    // Header scroll effect
+    window.addEventListener('scroll', () => {
+      const header = document.getElementById('header');
+      if (window.scrollY > 100) {
+        header.classList.add('scrolled');
+      } else {
+        header.classList.remove('scrolled');
+      }
+      
+      // Scroll to top button
+      const scrollTop = document.getElementById('scrollTop');
+      if (window.scrollY > 500) {
+        scrollTop.classList.add('active');
+      } else {
+        scrollTop.classList.remove('active');
+      }
+    });
+
+    // Scroll to top
+    document.getElementById('scrollTop').addEventListener('click', () => {
+      lenis.scrollTo(0, { duration: 1.5 });
+    });
+
+    // FAQ toggle
+    document.querySelectorAll('.faq-question').forEach(question => {
+      question.addEventListener('click', () => {
+        const item = question.parentElement;
+        item.classList.toggle('active');
+      });
+    });
+
+    // Counter animation for stats
+    function animateCounter(element, target, duration = 2000) {
+      let start = 0;
+      const increment = target / (duration / 16);
+      const timer = setInterval(() => {
+        start += increment;
+        if (start >= target) {
+          element.textContent = target.toLocaleString();
+          clearInterval(timer);
+        } else {
+          element.textContent = Math.floor(start).toLocaleString();
+        }
+      }, 16);
+    }
+
+    // Animate stats when in view
+    const statsObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          animateCounter(document.getElementById('users-count'), 1250000);
+          animateCounter(document.getElementById('posts-count'), 3500000);
+          animateCounter(document.getElementById('communities-count'), 15000);
+          statsObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.5 });
+
+    statsObserver.observe(document.querySelector('.about-stats'));
+
+    // Mobile menu
+    const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+    const navLinks = document.querySelector('.nav-links');
+    
+    mobileMenuBtn.addEventListener('click', () => {
+      navLinks.style.display = navLinks.style.display === 'flex' ? 'none' : 'flex';
+    });
+
+    // Close mobile menu when clicking on a link
+    document.querySelectorAll('.nav-links a').forEach(link => {
+      link.addEventListener('click', () => {
+        if (window.innerWidth <= 768) {
+          navLinks.style.display = 'none';
+        }
+      });
+    });
+
+    // Handle window resize
+    window.addEventListener('resize', () => {
+      if (window.innerWidth > 768) {
+        navLinks.style.display = 'flex';
+      } else {
+        navLinks.style.display = 'none';
+      }
+    });
   </script>
 </body>
 </html>
-
