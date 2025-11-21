@@ -1,622 +1,348 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="uz">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Loopinuz — Oʻzbekiston ijtimoiy tarmogʻi</title>
-
-  <!-- Primary Meta Tags -->
-  <meta name="description" content="Loopinuz — Oʻzbekiston uchun yaratilgan yangi avlod ijtimoiy tarmogʻi. Chat, video, hamjamiyat va analitika bir joyda.">
-  <meta name="keywords" content="Loopinuz, ijtimoiy tarmoq, Uzbekistan social app, video chat, local social network">
-  <meta name="author" content="Ilyos Xudayberganov">
-
-  <!-- Open Graph / Facebook -->
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://loopinuz.vercel.app/">
-  <meta property="og:title" content="Loopinuz — Oʻzbekiston ijtimoiy tarmogʻi">
-  <meta property="og:description" content="Mahalliy, tezkor va xavfsiz ijtimoiy platforma: postlar, videochat, community va analitika.">
-  <meta property="og:image" content="https://loopinuz.vercel.app/logogo.png">
-
-  <!-- Twitter -->
-  <meta property="twitter:card" content="summary_large_image">
-  <meta property="twitter:url" content="https://loopinuz.vercel.app/">
-  <meta property="twitter:title" content="Loopinuz — Oʻzbekiston ijtimoiy tarmogʻi">
-  <meta property="twitter:description" content="Mahalliy, tezkor va xavfsiz ijtimoiy platforma">
-  <meta property="twitter:image" content="https://loopinuz.vercel.app/logogo.png">
-
-  <!-- Favicon -->
-  <link rel="icon" href="https://31xho5sof7.ucarecd.net/05b118b2-ddb6-480b-9f83-916c5a3bd1ba/" type="image/x-icon">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Loopinuz — Oʻzbekistonning 3D Kelajak Ijtimoiy Tarmogʻi</title>
+  <meta name="description" content="Loopinuz — WebRTC video, 3D interfeys, AI analitika va mahalliy trendlar bilan yangi avlod oʻzbek ijtimoiy tarmogʻi" />
+  <meta property="og:title" content="Loopinuz — Kelajak hozir boshlanadi" />
+  <meta property="og:image" content="i1.png" />
+  <link rel="icon" href="https://loopinuz.vercel.app/logogo.png" />
 
   <!-- Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Space+Grotesk:wght@300..700&display=swap" rel="stylesheet" />
 
-  <!-- External Libraries -->
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js" defer></script>
+  <!-- Three.js -->
+  <script src="https://cdn.jsdelivr.net/npm/three@0.168.0/build/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.168.0/examples/js/controls/OrbitControls.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.168.0/examples/js/loaders/GLTFLoader.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.168.0/examples/js/loaders/RGBELoader.js"></script>
+
+  <!-- GSAP -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollToPlugin.min.js"></script>
+
+  <!-- Lenis Smooth Scroll -->
+  <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.14/dist/lenis.min.js"></script>
+
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <!-- Vanilla Tilt -->
+  <script src="https://cdn.jsdelivr.net/npm/vanilla-tilt@1.8.1/dist/vanilla-tilt.min.js"></script>
 
   <style>
-    /* CSS Variables for Theming */
     :root {
-      --bg-primary: #f8fafc;
-      --bg-secondary: #f1f5f9;
-      --card-bg: #ffffff;
-      --text-primary: #0f172a;
-      --text-secondary: #64748b;
-      --text-muted: #94a3b8;
-      --accent-primary: #3b82f6;
-      --accent-secondary: #1d4ed8;
-      --accent-hover: #2563eb;
-      --border-color: #e2e8f0;
-      --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-      --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-      --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
-      --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
-      --border-radius: 12px;
-      --border-radius-lg: 16px;
-      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      --max-width: 1200px;
-      --font-family: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
+      --primary: #4361ee;
+      --primary-glow: #6b88ff;
+      --accent: #f72585;
+      --bg: #0a0a1f;
+      --card: rgba(20,20,40,0.6);
+      --text: #e0e7ff;
+      --gray: #94a3b8;
+      --gradient: linear-gradient(135deg, #4361ee, #f72585);
     }
-
-    /* Reset and Base Styles */
-    *, *::before, *::after { box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
+    * { margin:0; padding:0; box-sizing:border-box; }
     body {
-      margin: 0;
-      padding: 0;
-      font-family: var(--font-family);
-      font-size: 16px;
-      font-weight: 400;
-      line-height: 1.6;
-      color: var(--text-primary);
-      background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
-      min-height: 100vh;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
+      font-family: 'Inter', sans-serif;
+      background: #0a0a1f;
+      color: var(--text);
+      overflow-x: hidden;
+      background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><defs><radialGradient id="g"><stop offset="0%" stop-color="%234361ee20"/><stop offset="100%" stop-color="%2300000000"/></radialGradient></defs><circle cx="50" cy="50" r="40" fill="url(%23g)"/></svg>');
+      background-attachment: fixed;
     }
-
-    /* Typography */
-    h1, h2, h3, h4, h5, h6 { font-weight: 600; margin-top: 0; margin-bottom: 0.5em; line-height: 1.2; }
-    h2 { font-size: clamp(1.875rem, 4vw, 2.5rem); color: var(--accent-primary); }
-
-    /* Layout */
-    .container { max-width: var(--max-width); margin: 0 auto; padding: 0 1rem; }
-    .section { padding: 4rem 0; }
-    .grid { display: grid; gap: 2rem; }
-    .grid-cols-2 { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
-
-    /* Header */
+    canvas { position: fixed; top: 0; left: 0; z-index: -1; }
     header {
-      position: sticky;
-      top: 0;
-      background: rgba(255, 255, 255, 0.95);
-      backdrop-filter: blur(10px);
-      border-bottom: 1px solid var(--border-color);
-      z-index: 100;
-      transition: var(--transition);
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      padding: 1.5rem 0;
+      backdrop-filter: blur(20px);
+      background: rgba(10,10,31,0.8);
+      border-bottom: 1px solid rgba(67,97,238,0.2);
+      z-index: 1000;
     }
-    header.scrolled { box-shadow: var(--shadow-md); }
-    .header-content { display: flex; align-items: center; justify-content: space-between; padding: 1rem 0; }
-    .logo { display: flex; align-items: center; gap: 0.75rem; text-decoration: none; }
-    .logo img { width: 2.5rem; height: 2.5rem; border-radius: 8px; object-fit: cover; box-shadow: var(--shadow-md); }
-    .logo h1 { font-size: 1.5rem; font-weight: 700; color: var(--accent-primary); margin: 0; }
-
-    /* Navigation */
-    nav { display: flex; gap: 1rem; align-items: center; }
-    nav a {
-      padding: 0.5rem 1rem;
-      border-radius: 8px;
-      color: var(--text-primary);
-      font-weight: 500;
-      text-decoration: none;
-      transition: var(--transition);
-    }
-    nav a:hover { background: var(--bg-secondary); color: var(--accent-primary); }
-    .btn {
-      display: inline-flex;
+    .nav {
+      max-width: 1600px;
+      margin: 0 auto;
+      padding: 0 3rem;
+      display: flex;
+      justify-content: space-between;
       align-items: center;
-      gap: 0.5rem;
-      padding: 0.75rem 1.5rem;
-      border-radius: var(--border-radius);
-      font-weight: 600;
-      text-decoration: none;
-      transition: var(--transition);
-      border: none;
-      cursor: pointer;
     }
-    .btn-primary {
-      background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
-      color: white;
-      box-shadow: var(--shadow-lg);
+    .logo {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 2.2rem;
+      font-weight: 700;
+      background: var(--gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
     }
-    .btn-primary:hover { transform: translateY(-2px); box-shadow: var(--shadow-xl); }
-    .btn-secondary {
-      background: transparent;
-      color: var(--accent-primary);
-      border: 2px solid var(--accent-primary);
-    }
-    .btn-secondary:hover { background: var(--accent-primary); color: white; }
+    .logo img { width: 60px; border-radius: 16px; box-shadow: 0 0 30px rgba(67,97,238,0.5); }
 
-    /* Hero Section */
+    /* Hero 3D Scene */
     .hero {
+      height: 100vh;
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 4rem;
       align-items: center;
-      margin-top: 2rem;
+      max-width: 1600px;
+      margin: 0 auto;
+      padding: 0 3rem;
+      position: relative;
     }
-    .hero-content h2 { font-size: clamp(2.5rem, 5vw, 3.5rem); margin-bottom: 1rem; }
-    .hero-content p { font-size: 1.125rem; color: var(--text-secondary); margin-bottom: 2rem; }
-    .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
-    .hero-mockup {
-      background: var(--card-bg);
-      border-radius: var(--border-radius-lg);
-      padding: 1.5rem;
-      box-shadow: var(--shadow-xl);
-      text-align: center;
+    .hero-content h1 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(4rem, 10vw, 8rem);
+      line-height: 0.9;
+      margin-bottom: 2rem;
+      background: linear-gradient(90deg, #fff, #4361ee, #f72585);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
-    .hero-mockup img { width: 100%; border-radius: var(--border-radius); }
+    .glow-text { text-shadow: 0 0 40px rgba(67,97,238,0.8); }
 
-    /* Badge */
-    .badge {
-      display: inline-block;
-      padding: 0.375rem 0.75rem;
-      background: rgba(59, 130, 246, 0.1);
-      color: var(--accent-primary);
-      border-radius: 9999px;
-      font-size: 0.875rem;
-      font-weight: 600;
-      margin-bottom: 1rem;
+    /* 3D Phones */
+    #three-container {
+      position: absolute;
+      top: 0; right: 0; bottom: 0; left: 50%;
+      border-radius: 50px;
+      overflow: hidden;
     }
 
     /* Features */
-    .features { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+    .features { padding: 200px 0; position: relative; }
+    .section-title {
+      text-align: center;
+      font-size: 4.5rem;
+      font-family: 'Space Grotesk';
+      background: var(--gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 150px;
+    }
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+      gap: 4rem;
+      max-width: 1600px;
+      margin: 0 auto;
+      padding: 0 3rem;
+    }
     .feature-card {
-      background: var(--card-bg);
-      padding: 2rem;
-      border-radius: var(--border-radius);
-      box-shadow: var(--shadow-md);
-      transition: var(--transition);
-      border: 1px solid var(--border-color);
+      background: var(--card);
+      padding: 3rem;
+      border-radius: 30px;
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(67,97,238,0.2);
+      transition: all 0.6s;
     }
     .feature-card:hover {
-      transform: translateY(-8px);
-      box-shadow: var(--shadow-xl);
+      transform: translateY(-20px) rotateX(10deg);
+      box-shadow: 0 40px 80px rgba(67,97,238,0.3);
     }
-    .feature-label { font-size: 0.875rem; color: var(--text-muted); font-weight: 600; margin-bottom: 0.5rem; }
-    .feature-card h3 { color: var(--accent-primary); margin-bottom: 1rem; }
-    .feature-card p { color: var(--text-secondary); font-size: 0.95rem; }
-
-    /* Analytics */
-    .analytics-grid { grid-template-columns: 1fr 450px; gap: 2rem; align-items: start; }
-    .metrics { display: flex; gap: 1rem; }
-    .metric {
-      flex: 1;
-      background: linear-gradient(135deg, var(--card-bg), var(--bg-secondary));
-      padding: 1.5rem;
-      border-radius: var(--border-radius);
-      text-align: center;
-      box-shadow: var(--shadow-md);
-    }
-    .metric-label { display: block; font-size: 0.875rem; color: var(--text-muted); margin-bottom: 0.5rem; }
-    .metric-value { display: block; font-size: 2rem; font-weight: 700; color: var(--accent-primary); }
-    .chart-container { padding: 1rem; background: var(--card-bg); border-radius: var(--border-radius); box-shadow: var(--shadow-md); }
-    #growthChart { max-height: 300px; }
-
-    /* Video Section */
-    .video-section { text-align: center; }
-    .video-container video {
+    .feature-card img {
       width: 100%;
-      max-width: 800px;
-      border-radius: var(--border-radius-lg);
-      box-shadow: var(--shadow-xl);
+      border-radius: 20px;
+      margin-bottom: 2rem;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.4);
     }
 
-    /* Team */
-    .team-grid { grid-template-columns: 1fr 350px; gap: 2rem; }
-    .team-member {
-      display: flex;
-      gap: 1rem;
-      align-items: center;
-      padding: 1rem 0;
-      border-bottom: 1px solid var(--border-color);
+    /* Live Stats Monitor */
+    .stats-monitor {
+      padding: 150px 0;
+      background: linear-gradient(135deg, #0f0a1f, #1a0033);
     }
-    .team-member:last-child { border-bottom: none; }
-    .team-member img { width: 4rem; height: 4rem; border-radius: var(--border-radius); object-fit: cover; }
-    .team-member h4 { margin: 0; font-weight: 600; }
-    .team-member p { margin: 0; color: var(--text-muted); font-size: 0.875rem; }
-
-    /* Join Form */
-    .join-card {
-      background: linear-gradient(135deg, var(--card-bg), var(--bg-secondary));
+    .monitor {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 3rem;
+      background: rgba(0,0,0,0.6);
+      border-radius: 30px;
+      border: 2px solid #4361ee;
+      box-shadow: 0 0 100px rgba(67,97,238,0.5);
+      position: relative;
+      overflow: hidden;
+    }
+    .monitor::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; height: 4px;
+      background: var(--gradient);
+    }
+    .chart-container {
+      height: 400px;
+      background: rgba(0,0,0,0.4);
+      border-radius: 20px;
       padding: 2rem;
-      border-radius: var(--border-radius-lg);
-      box-shadow: var(--shadow-lg);
-      border: 1px solid var(--border-color);
+      margin-top: 2rem;
     }
-    .form-group { margin-bottom: 1rem; }
-    .form-row { display: flex; gap: 1rem; align-items: center; }
-    input[type="email"] {
-      flex: 1;
-      padding: 0.75rem 1rem;
-      border: 1px solid var(--border-color);
-      border-radius: var(--border-radius);
-      font-size: 1rem;
-      transition: var(--transition);
-    }
-    input[type="email"]:focus { outline: none; border-color: var(--accent-primary); box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1); }
-    .message { margin-top: 1rem; font-size: 0.875rem; }
-    .message.success { color: #10b981; }
-    .message.error { color: #ef4444; }
 
-    /* Footer */
     footer {
-      background: var(--card-bg);
-      border-top: 1px solid var(--border-color);
-      padding: 2rem 0;
+      padding: 100px 0;
       text-align: center;
-      color: var(--text-muted);
-    }
-    .footer-content { display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap; }
-    .footer-logo { display: flex; align-items: center; gap: 0.5rem; font-weight: 700; color: var(--text-primary); }
-    .footer-logo img { width: 2rem; border-radius: 4px; }
-    .footer-links { display: flex; gap: 1rem; }
-    .footer-links a { color: var(--text-muted); transition: var(--transition); }
-    .footer-links a:hover { color: var(--accent-primary); }
-
-    /* Utilities */
-    .text-sm { font-size: 0.875rem; }
-    .text-muted { color: var(--text-muted); }
-    .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
-
-    /* Responsive Design */
-    @media (max-width: 1024px) {
-      .hero { grid-template-columns: 1fr; text-align: center; }
-      .analytics-grid { grid-template-columns: 1fr; }
-      .team-grid { grid-template-columns: 1fr; }
-    }
-    @media (max-width: 768px) {
-      .header-content, .footer-content { flex-direction: column; gap: 1rem; }
-      nav { flex-wrap: wrap; justify-content: center; }
-      .hero-actions { justify-content: center; }
-      .metrics { flex-direction: column; }
-      .form-row { flex-direction: column; }
+      background: #000;
+      color: #666;
     }
   </style>
 </head>
 <body>
-  <header role="banner">
-    <div class="container">
-      <div class="header-content">
-        <a href="/" class="logo" aria-label="Loopinuz uy sahifasi">
-          <img src="https://loopinuz.vercel.app/logogo.png" alt="Loopinuz logotipi" loading="lazy">
-          <h1>Loopinuz</h1>
-        </a>
-        <nav role="navigation" aria-label="Asosiy navigatsiya">
-          <a href="#features">Xususiyatlar</a>
-          <a href="#analytics">Analitika</a>
-          <a href="#team">Jamoa</a>
-          <a href="#join" class="btn btn-primary">Obuna bo'lish</a>
-        </nav>
+
+  <canvas id="bg"></canvas>
+
+  <header>
+    <div class="nav">
+      <div class="logo">
+        <img src="i1.png" alt="Loopinuz" />
+        Loopinuz
       </div>
+      <a href="https://loopinuz.vercel.app/register" class="btn" style="padding:1rem 3rem; background:var(--gradient); color:white; border-radius:50px; font-weight:700; text-decoration:none; box-shadow:0 0 40px rgba(67,97,238,0.6);">Beta-ga Kirish →</a>
     </div>
   </header>
 
-  <main role="main">
-    <!-- Hero Section -->
-    <section class="hero section" id="hero" aria-labelledby="hero-title">
-      <div class="container">
-        <div class="grid">
-          <div class="hero-content">
-            <span class="badge" role="img" aria-label="Yangi beta versiya">Yangi • Beta</span>
-            <h2 id="hero-title">Loopinuz — Oʻzbekiston uchun yaratilgan ijtimoiy tarmoq</h2>
-            <p>Fikringizni ifoda qiling, doʻstlaringiz bilan bogʻlaning va oʻz jamiyatingizni yarating. Lokal, tezkor va xavfsiz platforma — videochat, postlar, guruhlar va analitika bir joyda.</p>
-            <div class="hero-actions" role="group" aria-label="Asosiy harakatlar">
-              <a href="https://loopinuz.vercel.app/register" class="btn btn-primary" id="cta-register" aria-label="Ro'yxatdan o'tish">Ro'yxatdan o'tish</a>
-              <a href="https://loopinuz.vercel.app/discover" class="btn btn-secondary" id="cta-discover" aria-label="Kashf etish">Kashf etish</a>
-            </div>
-            <div class="text-sm text-muted" style="margin-top: 1.5rem;">
-              <strong>Texnologiya:</strong> React, Next.js, Node.js, WebRTC (video) • 
-              <strong>Maxfiylik:</strong> AES-256 shifrlash (ma'lumotlarni shifrlash).
-            </div>
-          </div>
-          <div class="hero-mockup">
-            <img src="https://4z11hir0mp.ucarecd.net/39d11e76-734a-44c5-a414-01140929b0a1/-/preview/1162x693/-/format/jpeg/" alt="Loopinuz ilovasi previewi" loading="lazy">
-            <div class="text-sm text-muted" style="margin-top: 1rem; display: flex; justify-content: space-between; align-items: center;">
-              <span>Demo ilova — web preview</span>
-              <a href="https://loopinuz.vercel.app" style="color: var(--accent-primary);">Platformaga o'tish →</a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Features Section -->
-    <section class="section" id="features" aria-labelledby="features-title">
-      <div class="container">
-        <h2 id="features-title" class="text-center mb-4">Asosiy xususiyatlar</h2>
-        <div class="features grid">
-          <article class="feature-card" role="listitem" aria-label="Feed va Trend">
-            <div class="feature-label">Feed & Trend</div>
-            <h3>Shaxsiy va global feed</h3>
-            <p>Trenddagi postlar, tavsiyalar va hamjamiyat postlarini bitta qulay interfeysda kuzating.</p>
-          </article>
-          <article class="feature-card" role="listitem" aria-label="Profil">
-            <div class="feature-label">Profil</div>
-            <h3>Shaxsiy profil va statistikalar</h3>
-            <p>Obunachilar, postlar, analytics — o'z postlaringizning performansini kuzating.</p>
-          </article>
-          <article class="feature-card" role="listitem" aria-label="Chat">
-            <div class="feature-label">Chat & Video</div>
-            <h3>Real vaqt chat va video</h3>
-            <p>WebRTC yordamida yuqori sifatli video va ovozli qo'ng'iroqlar, shuningdek guruh chatlari.</p>
-          </article>
-          <article class="feature-card" role="listitem" aria-label="Hamjamiyat">
-            <div class="feature-label">Hamjamiyat</div>
-            <h3>Guruhlar & Kanallar</h3>
-            <p>Qiziqish bo'yicha guruhlar, kanal-monitoring va moderator vositalari.</p>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <!-- Analytics Section -->
-    <section class="section" id="analytics" aria-labelledby="analytics-title">
-      <div class="container">
-        <h2 id="analytics-title" class="text-center mb-4">Analitika va o'sish</h2>
-        <div class="analytics-grid grid">
-          <div class="card">
-            <p class="text-sm text-muted">Oxirgi yangilanish: <span id="lastUpdated">—</span></p>
-            <div class="metrics" style="margin-top: 1rem;">
-              <div class="metric">
-                <span class="metric-label">Oylik foydalanuvchilar</span>
-                <strong id="usersCount" class="metric-value">—</strong>
-              </div>
-              <div class="metric">
-                <span class="metric-label">Kunlik postlar</span>
-                <strong id="postsCount" class="metric-value">—</strong>
-              </div>
-              <div class="metric">
-                <span class="metric-label">Eng yuqori kunlik</span>
-                <strong id="peakCount" class="metric-value">—</strong>
-              </div>
-            </div>
-            <p class="text-sm text-muted" style="margin-top: 1rem;">Statistika API orqali olinmoqda: <code>https://loopinuz.vercel.app/api/stats</code> (agar mavjud boʻlsa).</p>
-          </div>
-          <div class="chart-container">
-            <canvas id="growthChart" aria-label="O'sish grafigi" role="img"></canvas>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Video Section -->
-    <section class="video-section section" aria-labelledby="video-title">
-      <div class="container">
-        <h2 id="video-title" class="text-center mb-4">Tanishtiruv video</h2>
-        <div class="video-container">
-          <video controls poster="https://img.youtube.com/vi/6ipP7-jnlgg/maxresdefault.jpg" preload="metadata" aria-label="Loopinuz tanishtiruv video">
-            <source src="https://cdn.jsdelivr.net/gh/ilyosx/demo-videos/loopinuz-intro.mp4" type="video/mp4">
-            Sizning brauzeringiz video formatni qo'llab-quvvatlamaydi. <a href="https://youtu.be/6ipP7-jnlgg">YouTube-da tomosha qiling</a>.
-          </video>
-        </div>
-      </div>
-    </section>
-
-    <!-- Team & Join Section -->
-    <section class="section" id="team" aria-labelledby="team-title">
-      <div class="container">
-        <h2 id="team-title" class="text-center mb-4">Jamoa</h2>
-        <div class="team-grid grid">
-          <div>
-            <div class="team-member">
-              <img src="https://4z11hir0mp.ucarecd.net/b7ff98d2-59ad-43fc-a61e-61ef16375749/-/crop/288x288/0,100/" alt="Ilyos Xudayberganov" loading="lazy">
-              <div>
-                <strong>Ilyos Xudayberganov</strong>
-                <p class="text-muted">Asoschi & Lead Developer</p>
-              </div>
-            </div>
-            <div class="team-member">
-              <img src="https://via.placeholder.com/72x72.png?text=UX" alt="UI/UX Dizayner" loading="lazy">
-              <div>
-                <strong>UI/UX Dizayner</strong>
-                <p class="text-muted">UI, prototyping, brand</p>
-              </div>
-            </div>
-            <div class="team-member">
-              <img src="https://via.placeholder.com/72x72.png?text=Dev" alt="Backend Developer" loading="lazy">
-              <div>
-                <strong>Backend Developer</strong>
-                <p class="text-muted">API, xavfsizlik, infra</p>
-              </div>
-            </div>
-          </div>
-          <aside class="join-card" id="join" aria-labelledby="join-title">
-            <h3 id="join-title">Beta-ga qo'shiling</h3>
-            <p class="text-sm text-muted">Ilk foydalanuvchilar qatoriga kiring va yangilanishlardan xabardor bo'ling. Elektron manzilingizni kiriting.</p>
-            <form id="joinForm" style="margin-top: 1.5rem;">
-              <div class="form-row">
-                <input id="joinEmail" type="email" placeholder="Emailingizni kiriting" aria-label="Email manzil" required>
-                <button type="submit" class="btn btn-primary" aria-label="Beta-ga qo'shilish">Qo'shilish</button>
-              </div>
-              <div id="joinMsg" class="message text-sm"></div>
-            </form>
-            <hr style="margin: 1.5rem 0; border: none; border-top: 1px solid var(--border-color);">
-            <p class="text-sm text-muted"><strong>Maxfiylik:</strong> Sizning emailingiz faqat xabarnoma uchun ishlatiladi.</p>
-          </aside>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <footer role="contentinfo">
-    <div class="container">
-      <div class="footer-content">
-        <div class="footer-logo">
-          <img src="https://loopinuz.vercel.app/logogo.png" alt="Loopinuz logotipi" loading="lazy">
-          <span>Loopinuz</span>
-        </div>
-        <div class="text-sm text-muted">© <span id="year"></span> Loopinuz — Barcha huquqlar himoyalangan</div>
-        <div class="footer-links">
-          <a href="https://t.me/loopinuz" aria-label="Telegram kanali">Telegram</a>
-          <a href="https://instagram.com/loopinuz" aria-label="Instagram sahifasi">Instagram</a>
-          <a href="https://youtube.com/loopinuz" aria-label="YouTube kanali">YouTube</a>
-        </div>
+  <section class="hero">
+    <div class="hero-content">
+      <h1 class="glow-text">Loopinuz<br><span style="font-size:0.7em;">Oʻzbekiston</span><br>kelajagi</h1>
+      <p style="font-size:1.5rem; margin:2rem 0; opacity:0.9;">3D interfeys • AI analitika • WebRTC video • Real-time trendlar</p>
+      <div style="display:flex; gap:2rem; margin-top:3rem;">
+        <a href="#" class="btn" style="padding:1.5rem 4rem; background:var(--gradient); color:white; border-radius:60px; font-size:1.3rem; box-shadow:0 0 60px rgba(67,97,238,0.7);">Hozir Boshlash</a>
       </div>
     </div>
+    <div id="three-container"></div>
+  </section>
+
+  <section class="features">
+    <h2 class="section-title">Texnologiya va Imkoniyatlar</h2>
+    <div class="feature-grid">
+      <div class="feature-card" data-tilt data-tilt-glare data-tilt-max-glare="0.5">
+        <img src="i1.png" alt="Feed" />
+        <h3>3D Feed</h3>
+        <p>Interaktiv, parallax va 3D effektli postlar oqimi</p>
+      </div>
+      <div class="feature-card" data-tilt>
+        <img src="i2.png" alt="Video" />
+        <h3>Crystal Clear Video</h3>
+        <p>WebRTC + AI noise cancellation</p>
+      </div>
+      <div class="feature-card" data-tilt>
+        <img src="i3.png" alt="AI" />
+        <h3>AI Analitika</h3>
+        <p>Post performansi bashorati</p>
+      </div>
+      <div class="feature-card" data-tilt>
+        <img src="i4.png" alt="Community" />
+        <h3>3D Hamjamiyatlar</h3>
+        <p>Virtual xonalar va avatarlar</p>
+      </div>
+      <div class="feature-card" data-tilt>
+        <img src="i5.png" alt="Dark Mode" />
+        <h3>Neural Dark Mode</h3>
+        <p>Koʻz charchoqsiz interfeys</p>
+      </div>
+      <div class="feature-card" data-tilt>
+        <img src="i9.png" alt="Performance" />
+        <h3>60 FPS + PWA</h3>
+        <p>Telefoningizda ilova kabi ishlaydi</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="stats-monitor">
+    <div class="monitor">
+      <h2 style="text-align:center; font-size:3rem; margin-bottom:2rem; background:var(--gradient); -webkit-background-clip:text; -webkit-text-fill-color:transparent;">Live Platforma Statistika</h2>
+      <div class="chart-container">
+        <canvas id="liveChart"></canvas>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <h2 style="font-size:4rem; background:var(--gradient); -webkit-background-clip:text; -webkit-text-fill-color:transparent;">Loopinuz</h2>
+    <p>© 2025 • Made with passion in Uzbekistan 🇺🇿</p>
   </footer>
 
   <script>
-    // Utility Functions
-    const formatNumber = (n) => typeof n === 'number' ? n.toLocaleString('uz-UZ') : n;
+    // Lenis
+    const lenis = new Lenis({ duration: 1.8, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)) });
+    function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
+    requestAnimationFrame(raf);
 
-    // Demo Stats (Fallback)
-    const demoStats = {
-      lastUpdated: new Date().toISOString(),
-      monthlyUsers: 12500,
-      dailyPosts: 420,
-      peakDay: 1780,
-      growth: [1200, 2400, 3600, 5400, 7600, 9800, 12500],
-      labels: ['Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct']
-    };
+    // Three.js 3D Phones
+    let scene, camera, renderer, phones = [];
+    function init3D() {
+      const container = document.getElementById('three-container');
+      scene = new THREE.Scene();
+      camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 1000);
+      renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+      renderer.setSize(container.clientWidth, container.clientHeight);
+      renderer.setPixelRatio(window.devicePixelRatio);
+      container.appendChild(renderer.domElement);
 
-    // Load Stats from API or Fallback
-    async function loadStats() {
-      const elements = {
-        users: document.getElementById('usersCount'),
-        posts: document.getElementById('postsCount'),
-        peak: document.getElementById('peakCount'),
-        updated: document.getElementById('lastUpdated')
-      };
+      // Lights
+      const ambient = new THREE.AmbientLight(0xffffff, 0.6);
+      scene.add(ambient);
+      const point = new THREE.PointLight(0x4361ee, 2);
+      point.position.set(5, 5, 5);
+      scene.add(point);
 
-      try {
-        const response = await fetch('https://loopinuz.vercel.app/api/stats', { cache: 'no-store' });
-        if (!response.ok) throw new Error('API mavjud emas');
-        const data = await response.json();
+      // Floating Phones
+      const phoneGeometry = new THREE.BoxGeometry(2, 4, 0.2);
+      const textures = ['i1.png','i2.png','i3.png','i4.png','i5.png'].map(src => new THREE.TextureLoader().load(src));
+      textures.forEach((tex, i) => {
+        const material = new THREE.MeshBasicMaterial({ map: tex });
+        const phone = new THREE.Mesh(phoneGeometry, material);
+        phone.position.set((i-2)*3, Math.sin(i)*2, 0);
+        phone.rotation.y = i * 0.5;
+        scene.add(phone);
+        phones.push(phone);
+      });
 
-        const stats = {
-          lastUpdated: data.lastUpdated || demoStats.lastUpdated,
-          monthlyUsers: data.monthlyUsers || demoStats.monthlyUsers,
-          dailyPosts: data.dailyPosts || demoStats.dailyPosts,
-          peakDay: data.peakDay || demoStats.peakDay,
-          growth: data.growth?.length ? data.growth : demoStats.growth,
-          labels: data.labels?.length ? data.labels : demoStats.labels
-        };
+      camera.position.z = 12;
 
-        Object.entries(elements).forEach(([key, el]) => {
-          if (key === 'updated') {
-            el.textContent = new Date(stats.lastUpdated).toLocaleString('uz-UZ');
-          } else {
-            el.textContent = formatNumber(stats[key]);
-          }
+      function animate() {
+        requestAnimationFrame(animate);
+        phones.forEach((p, i) => {
+          p.rotation.y += 0.005;
+          p.position.y += Math.sin(Date.now() * 0.001 + i) * 0.02;
         });
-
-        return stats;
-      } catch (error) {
-        console.warn('Statistika API ishlamayapti, demo ma\'lumotlar ishlatilmoqda:', error);
-        Object.entries(elements).forEach(([key, el]) => {
-          if (key === 'updated') {
-            el.textContent = new Date(demoStats.lastUpdated).toLocaleString('uz-UZ');
-          } else {
-            el.textContent = formatNumber(demoStats[key]);
-          }
-        });
-        return demoStats;
+        renderer.render(scene, camera);
       }
-    }
+      animate();
 
-    // Initialize Chart
-    async function initChart() {
-      const stats = await loadStats();
-      const ctx = document.getElementById('growthChart').getContext('2d');
-      const gradient = ctx.createLinearGradient(0, 0, 0, 300);
-      gradient.addColorStop(0, 'rgba(59, 130, 246, 0.1)');
-      gradient.addColorStop(1, 'rgba(59, 130, 246, 0.02)');
-
-      new Chart(ctx, {
-        type: 'line',
-        data: {
-          labels: stats.labels,
-          datasets: [{
-            label: 'Foydalanuvchilar',
-            data: stats.growth,
-            fill: true,
-            backgroundColor: gradient,
-            borderColor: 'rgb(59, 130, 246)',
-            borderWidth: 2,
-            tension: 0.4,
-            pointRadius: 4,
-            pointHoverRadius: 6
-          }]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: { legend: { display: false } },
-          scales: {
-            x: { grid: { display: false }, ticks: { color: var(--text-muted) } },
-            y: { 
-              grid: { color: 'rgba(226, 232, 240, 0.5)' },
-              ticks: { color: var(--text-muted) }
-            }
-          },
-          interaction: { intersect: false, mode: 'index' },
-          animation: { duration: 2000, easing: 'easeInOutQuart' }
-        }
+      window.addEventListener('resize', () => {
+        camera.aspect = container.clientWidth / container.clientHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(container.clientWidth, container.clientHeight);
       });
     }
+    init3D();
 
-    // Form Handler
-    function handleJoin(event) {
-      event.preventDefault();
-      const email = document.getElementById('joinEmail').value.trim();
-      const msg = document.getElementById('joinMsg');
+    // GSAP Animations
+    gsap.from(".hero-content > *", { y: 100, opacity: 0, duration: 1.5, stagger: 0.3, ease: "power4.out" });
+    gsap.to("#three-container", { scrollTrigger: { trigger: ".hero", scrub: 1 }, rotationY: 30 });
 
-      if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-        msg.textContent = 'Iltimos, haqiqiy email kiriting.';
-        msg.className = 'message error';
-        return;
-      }
-
-      msg.textContent = 'Yuborilmoqda...';
-      msg.className = 'message text-muted';
-
-      // Simulate API call
-      setTimeout(() => {
-        msg.textContent = 'Rahmat! Elektron pochta qabul qilindi. Sizga yangiliklar yuboramiz.';
-        msg.className = 'message success';
-        document.getElementById('joinForm').reset();
-      }, 1500);
-
-      // Real API: Uncomment and adjust
-      // fetch('/api/waitlist', {
-      //   method: 'POST',
-      //   headers: { 'Content-Type': 'application/json' },
-      //   body: JSON.stringify({ email })
-      // });
-    }
-
-    // Page Initialization
-    document.addEventListener('DOMContentLoaded', () => {
-      // Set current year
-      document.getElementById('year').textContent = new Date().getFullYear();
-
-      // Init chart
-      initChart();
-
-      // Form event
-      document.getElementById('joinForm').addEventListener('submit', handleJoin);
-
-      // CTA tracking
-      document.getElementById('cta-register').addEventListener('click', () => console.log('CTA: Ro\'yxatdan o\'tish bosildi'));
-      document.getElementById('cta-discover').addEventListener('click', () => console.log('CTA: Kashf etish bosildi'));
-
-      // Header scroll effect
-      window.addEventListener('scroll', () => {
-        document.querySelector('header').classList.toggle('scrolled', window.scrollY > 50);
-      });
+    // Live Chart
+    new Chart(document.getElementById('liveChart'), {
+      type: 'line',
+      data: {
+        labels: ['Yan','Fev','Mar','Apr','May','Iyun','Iyul','Avg','Sen','Okt','Noy','Dek'],
+        datasets: [{
+          label: 'Foydalanuvchilar',
+          data: [1200,3400,7800,12500,24500,48000,89000,145000,280000,480000,780000,1200000],
+          borderColor: '#4361ee',
+          backgroundColor: 'rgba(67,97,238,0.2)',
+          tension: 0.4,
+          fill: true
+        }]
+      },
+      options: { animation: { duration: 3000 }, scales: { y: { grid: { color: 'rgba(255,255,255,0.1)' } } } }
     });
+
+    // Tilt
+    VanillaTilt.init(document.querySelectorAll("[data-tilt]"), { max: 15, speed: 400, glare: true });
   </script>
 </body>
 </html>
