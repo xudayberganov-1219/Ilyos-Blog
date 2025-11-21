@@ -216,6 +216,25 @@
       overflow: hidden;
     }
 
+    /* Video Section */
+    .video-section {
+      padding: 150px 0;
+      text-align: center;
+    }
+    .video-container {
+      max-width: 900px;
+      margin: 0 auto;
+      border-radius: 30px;
+      overflow: hidden;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+      position: relative;
+    }
+    .video-container iframe {
+      width: 100%;
+      height: 500px;
+      border: none;
+    }
+
     /* Features */
     .features { 
       padding: 200px 0; 
@@ -443,6 +462,7 @@
       border-radius: 20px;
       overflow: hidden;
       border: 1px solid rgba(67,97,238,0.2);
+      transition: all 0.3s ease;
     }
     .faq-question {
       padding: 2rem;
@@ -462,10 +482,13 @@
       font-size: 1.1rem;
       line-height: 1.6;
       opacity: 0.9;
-      display: none;
+      max-height: 0;
+      overflow: hidden;
+      transition: all 0.3s ease;
     }
     .faq-item.active .faq-answer {
-      display: block;
+      max-height: 500px;
+      padding: 0 2rem 2rem;
     }
     .faq-item.active .faq-question {
       color: var(--primary-glow);
@@ -476,6 +499,44 @@
     }
     .faq-item.active .faq-toggle {
       transform: rotate(45deg);
+    }
+    
+    /* Contact Section */
+    .contact {
+      padding: 150px 0;
+      text-align: center;
+    }
+    .contact-info {
+      max-width: 800px;
+      margin: 0 auto;
+      background: var(--card);
+      padding: 4rem;
+      border-radius: 30px;
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(67,97,238,0.2);
+    }
+    .contact-info h3 {
+      font-size: 2.5rem;
+      margin-bottom: 2rem;
+      background: var(--gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .contact-details {
+      display: flex;
+      justify-content: center;
+      gap: 3rem;
+      margin-top: 2rem;
+    }
+    .contact-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+    }
+    .contact-item i {
+      font-size: 2rem;
+      color: var(--primary);
     }
     
     /* CTA Section */
@@ -635,11 +696,27 @@
       .footer-content {
         grid-template-columns: 1fr 1fr;
       }
+      .contact-details {
+        flex-direction: column;
+        gap: 2rem;
+      }
     }
     
     @media (max-width: 768px) {
       .nav-links {
         display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: rgba(10,10,31,0.95);
+        flex-direction: column;
+        padding: 2rem;
+        backdrop-filter: blur(20px);
+        border-bottom: 1px solid rgba(67,97,238,0.2);
+      }
+      .nav-links.active {
+        display: flex;
       }
       .mobile-menu-btn {
         display: block;
@@ -677,15 +754,17 @@
         <img src="https://loopinuz.vercel.app/logogo.png" alt="Loopinuz" />
         Loopinuz
       </div>
-      <div class="nav-links">
+      <div class="nav-links" id="navLinks">
         <a href="#features">Imkoniyatlar</a>
         <a href="#about">Biz haqimizda</a>
+        <a href="#video">Video</a>
         <a href="#stats">Statistika</a>
         <a href="#team">Jamoa</a>
         <a href="#faq">FAQ</a>
+        <a href="#contact">Aloqa</a>
         <a href="https://loopinuz.vercel.app/" class="btn" style="padding:1rem 2rem;">Beta-ga Kirish →</a>
       </div>
-      <button class="mobile-menu-btn">
+      <button class="mobile-menu-btn" id="mobileMenuBtn">
         <i class="fas fa-bars"></i>
       </button>
     </div>
@@ -699,12 +778,19 @@
         <a href="https://loopinuz.vercel.app/" class="btn">
           <i class="fas fa-rocket"></i> Hozir Boshlash
         </a>
-        <a href="#features" class="btn btn-outline">
+        <a href="#video" class="btn btn-outline">
           <i class="fas fa-play-circle"></i> Video Ko'rish
         </a>
       </div>
     </div>
     <div id="three-container"></div>
+  </section>
+
+  <section id="video" class="video-section">
+    <h2 class="section-title">Loopinuz Demo</h2>
+    <div class="video-container">
+      <iframe src="https://www.youtube.com/embed/omBkBqw1pP0" title="Loopinuz Demo" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </div>
   </section>
 
   <section id="features" class="features">
@@ -766,7 +852,6 @@
         </div>
       </div>
       <div class="about-visual">
-        <!-- Bu yerda qo'shimcha vizual element bo'lishi mumkin -->
         <div style="width:100%; height:400px; background:var(--card); border-radius:30px; display:flex; align-items:center; justify-content:center; border:1px solid rgba(67,97,238,0.2);">
           <i class="fas fa-globe-americas" style="font-size:5rem; background:var(--gradient); -webkit-background-clip:text; -webkit-text-fill-color:transparent;"></i>
         </div>
@@ -840,7 +925,7 @@
           <span class="faq-toggle">+</span>
         </div>
         <div class="faq-answer">
-          Hisob ochish uchun saytning asosiy sahifasidagi "Hozir Boshlash" tugmasini bosing va telefon raqamingiz orqali ro'yxatdan o'ting. Tasdiqlash kodi SMS orqali yuboriladi.
+          Hisob ochish uchun saytning asosiy sahifasidagi "Ro'yhatdan o'tish" tugmasini bosing va telefon raqamingiz orqali ro'yxatdan o'ting. 
         </div>
       </div>
       <div class="faq-item">
@@ -850,6 +935,73 @@
         </div>
         <div class="faq-answer">
           Biz foydalanuvchilar ma'lumotlarini shifrlash va xavfsiz saqlash uchun eng so'nggi texnologiyalardan foydalanamiz. Ma'lumotlaringiz hech qachon uchinchi shaxslar bilan baham ko'rilmaydi.
+        </div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question">
+          Loopinuz kim tomonidan yaratilgan?
+          <span class="faq-toggle">+</span>
+        </div>
+        <div class="faq-answer">
+          Loopinuz O'zbekistonlik dasturchi Ilyos Xudayberganov tomonidan yaratilgan. U 5 yillik tajribaga ega full-stack dasturchi bo'lib, loyiha 2024-yilda ishga tushirilgan.
+        </div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question">
+          Loopinuz AppStore va Play Marketga qachon joylanadi?
+          <span class="faq-toggle">+</span>
+        </div>
+        <div class="faq-answer">
+          Loopinuz foydalanuvchilar soni 5,000+ ga yetganidan so'ng rasmiy ilova sifatida AppStore va Play Marketga joylanadi. Hozirda beta-versiyasi veb-sayt orqali mavjud.
+        </div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question">
+          Loopinuzda qanday kontentlar mavjud?
+          <span class="faq-toggle">+</span>
+        </div>
+        <div class="faq-answer">
+          Loopinuzda foydalanuvchilar foto, video, matn va 3D postlar yaratishlari mumkin. Shuningdek, guruh suhbatlari, virtual xonalar va hamjamiyatlar mavjud.
+        </div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question">
+          Loopinuz qanday daromad olishni rejalashtirmoqda?
+          <span class="faq-toggle">+</span>
+        </div>
+        <div class="faq-answer">
+          Loopinuz reklama, premium funksiyalar va hamkorlik dasturlari orqali daromad olishni rejalashtirmoqda. Asosiy maqsad foydalanuvchilar uchun bepul va sifatli tajriba yaratish.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" class="contact">
+    <h2 class="section-title">Aloqa</h2>
+    <div class="contact-info">
+      <h3>Murojaat uchun</h3>
+      <p>Loopinuz jamoasi bilan bog'lanish uchun quyidagi ma'lumotlardan foydalaning:</p>
+      <div class="contact-details">
+        <div class="contact-item">
+          <i class="fas fa-user"></i>
+          <div>
+            <strong>Ilyos Xudayberganov</strong>
+            <p>Asoschi & CEO</p>
+          </div>
+        </div>
+        <div class="contact-item">
+          <i class="fas fa-envelope"></i>
+          <div>
+            <strong>Email</strong>
+            <p>xudayberganovbackend@gmail.com</p>
+          </div>
+        </div>
+        <div class="contact-item">
+          <i class="fas fa-phone"></i>
+          <div>
+            <strong>Telefon</strong>
+            <p>+998 88 858 49 69</p>
+          </div>
         </div>
       </div>
     </div>
@@ -916,20 +1068,31 @@
   </div>
 
   <script>
-    // Lenis
-    const lenis = new Lenis({ duration: 1.8, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)) });
-    function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
+    // Lenis - Scroll tezligini optimallashtirish
+    const lenis = new Lenis({
+      duration: 1.2,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      smoothWheel: true,
+      smoothTouch: false
+    });
+
+    function raf(time) {
+      lenis.raf(time);
+      requestAnimationFrame(raf);
+    }
     requestAnimationFrame(raf);
 
     // Three.js 3D Phones
     let scene, camera, renderer, phones = [];
     function init3D() {
       const container = document.getElementById('three-container');
+      if (!container) return;
+      
       scene = new THREE.Scene();
       camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 1000);
       renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
       renderer.setSize(container.clientWidth, container.clientHeight);
-      renderer.setPixelRatio(window.devicePixelRatio);
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
       container.appendChild(renderer.domElement);
 
       // Lights
@@ -941,7 +1104,15 @@
 
       // Floating Phones
       const phoneGeometry = new THREE.BoxGeometry(2, 4, 0.2);
-      const textures = ['i1.png','i2.png','i3.png','i4.png','i5.png'].map(src => new THREE.TextureLoader().load(src));
+      const textures = ['i1.png','i2.png','i3.png','i4.png','i5.png'].map(src => {
+        try {
+          return new THREE.TextureLoader().load(src);
+        } catch (e) {
+          console.warn(`Texture not found: ${src}`);
+          return null;
+        }
+      }).filter(tex => tex !== null);
+      
       textures.forEach((tex, i) => {
         const material = new THREE.MeshBasicMaterial({ map: tex });
         const phone = new THREE.Mesh(phoneGeometry, material);
@@ -969,13 +1140,30 @@
         renderer.setSize(container.clientWidth, container.clientHeight);
       });
     }
-    init3D();
+    
+    // Three.js ni faqat kerak bo'lganda ishga tushirish
+    const threeObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          init3D();
+          threeObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+    
+    threeObserver.observe(document.getElementById('three-container'));
 
     // GSAP Animations
     gsap.registerPlugin(ScrollTrigger);
     
-    gsap.from(".hero-content > *", { y: 100, opacity: 0, duration: 1.5, stagger: 0.3, ease: "power4.out" });
-    gsap.to("#three-container", { scrollTrigger: { trigger: ".hero", scrub: 1 }, rotationY: 30 });
+    // Hero animation
+    gsap.from(".hero-content > *", { 
+      y: 100, 
+      opacity: 0, 
+      duration: 1.5, 
+      stagger: 0.3, 
+      ease: "power4.out" 
+    });
     
     // Feature cards animation
     gsap.from(".feature-card", {
@@ -1035,56 +1223,66 @@
     });
 
     // Live Chart
-    new Chart(document.getElementById('liveChart'), {
-      type: 'line',
-      data: {
-        labels: ['Yan','Fev','Mar','Apr','May','Iyun','Iyul','Avg','Sen','Okt','Noy','Dek'],
-        datasets: [{
-          label: 'Foydalanuvchilar',
-          data: [1200,3400,7800,12500,24500,48000,89000,145000,280000,480000,780000,1200000],
-          borderColor: '#4361ee',
-          backgroundColor: 'rgba(67,97,238,0.2)',
-          tension: 0.4,
-          fill: true
-        }]
-      },
-      options: { 
-        animation: { duration: 3000 }, 
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-          legend: {
-            labels: {
-              color: '#e0e7ff',
-              font: {
-                size: 14
+    const chartCtx = document.getElementById('liveChart');
+    if (chartCtx) {
+      new Chart(chartCtx, {
+        type: 'line',
+        data: {
+          labels: ['Yan','Fev','Mar','Apr','May','Iyun','Iyul','Avg','Sen','Okt','Noy','Dek'],
+          datasets: [{
+            label: 'Foydalanuvchilar',
+            data: [1200,3400,7800,12500,24500,48000,89000,145000,280000,480000,780000,1200000],
+            borderColor: '#4361ee',
+            backgroundColor: 'rgba(67,97,238,0.2)',
+            tension: 0.4,
+            fill: true
+          }]
+        },
+        options: { 
+          animation: { duration: 3000 }, 
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              labels: {
+                color: '#e0e7ff',
+                font: {
+                  size: 14
+                }
               }
             }
-          }
-        },
-        scales: { 
-          x: {
-            grid: {
-              color: 'rgba(255,255,255,0.1)'
-            },
-            ticks: {
-              color: '#94a3b8'
-            }
           },
-          y: { 
-            grid: { 
-              color: 'rgba(255,255,255,0.1)' 
+          scales: { 
+            x: {
+              grid: {
+                color: 'rgba(255,255,255,0.1)'
+              },
+              ticks: {
+                color: '#94a3b8'
+              }
             },
-            ticks: {
-              color: '#94a3b8'
-            }
+            y: { 
+              grid: { 
+                color: 'rgba(255,255,255,0.1)' 
+              },
+              ticks: {
+                color: '#94a3b8'
+              }
+            } 
           } 
-        } 
-      }
-    });
+        }
+      });
+    }
 
     // Tilt
-    VanillaTilt.init(document.querySelectorAll("[data-tilt]"), { max: 15, speed: 400, glare: true });
+    if (document.querySelectorAll("[data-tilt]").length > 0) {
+      VanillaTilt.init(document.querySelectorAll("[data-tilt]"), { 
+        max: 15, 
+        speed: 400, 
+        glare: true,
+        "max-glare": 0.2
+      });
+    }
 
     // Header scroll effect
     window.addEventListener('scroll', () => {
@@ -1113,7 +1311,17 @@
     document.querySelectorAll('.faq-question').forEach(question => {
       question.addEventListener('click', () => {
         const item = question.parentElement;
-        item.classList.toggle('active');
+        const isActive = item.classList.contains('active');
+        
+        // Barcha FAQ itemlarni yopish
+        document.querySelectorAll('.faq-item').forEach(faqItem => {
+          faqItem.classList.remove('active');
+        });
+        
+        // Agar aktiv emas bo'lsa, faqat bittasini ochish
+        if (!isActive) {
+          item.classList.add('active');
+        }
       });
     });
 
@@ -1136,29 +1344,31 @@
     const statsObserver = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
-          animateCounter(document.getElementById('users-count'), 1250000);
-          animateCounter(document.getElementById('posts-count'), 3500000);
-          animateCounter(document.getElementById('communities-count'), 15000);
+          animateCounter(document.getElementById('users-count'), 2160);
+          animateCounter(document.getElementById('posts-count'), 526);
+          animateCounter(document.getElementById('communities-count'), 102);
           statsObserver.unobserve(entry.target);
         }
       });
     }, { threshold: 0.5 });
 
-    statsObserver.observe(document.querySelector('.about-stats'));
+    if (document.querySelector('.about-stats')) {
+      statsObserver.observe(document.querySelector('.about-stats'));
+    }
 
     // Mobile menu
-    const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
-    const navLinks = document.querySelector('.nav-links');
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const navLinks = document.getElementById('navLinks');
     
     mobileMenuBtn.addEventListener('click', () => {
-      navLinks.style.display = navLinks.style.display === 'flex' ? 'none' : 'flex';
+      navLinks.classList.toggle('active');
     });
 
     // Close mobile menu when clicking on a link
     document.querySelectorAll('.nav-links a').forEach(link => {
       link.addEventListener('click', () => {
         if (window.innerWidth <= 768) {
-          navLinks.style.display = 'none';
+          navLinks.classList.remove('active');
         }
       });
     });
@@ -1166,10 +1376,22 @@
     // Handle window resize
     window.addEventListener('resize', () => {
       if (window.innerWidth > 768) {
-        navLinks.style.display = 'flex';
-      } else {
-        navLinks.style.display = 'none';
+        navLinks.classList.remove('active');
       }
+    });
+
+    // Smooth scrolling for all anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          lenis.scrollTo(target, { 
+            duration: 1.5,
+            offset: -80
+          });
+        }
+      });
     });
   </script>
 </body>
